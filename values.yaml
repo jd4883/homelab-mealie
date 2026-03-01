@@ -1,5 +1,6 @@
 # Mealie — Argo CD uses expectedbehaviors/mealie chart; this file is values-only (no wrapper).
 # Base chart provides: probes, resources, TZ (UTC), service. Override only ingress, persistence (Longhorn pre-created PVC), and setup-specific env (BASE_URL).
+# Default host: meals.expectedbehaviors.com. CNAMEs: meals, pantry, recipes, cookbook (no overlap with other charts).
 global:
   fullnameOverride: mealie
 controllers:
@@ -7,20 +8,35 @@ controllers:
     containers:
       main:
         env:
-          BASE_URL: "https://mealie.expectedbehaviors.com"
+          BASE_URL: "https://meals.expectedbehaviors.com"
 ingress:
   main:
     enabled: true
     annotations:
       external-dns.alpha.kubernetes.io/target: expectedbehaviors.com
     hosts:
-      - host: mealie.expectedbehaviors.com
+      - host: meals.expectedbehaviors.com
+        paths:
+          - path: /
+            pathType: Prefix
+      - host: pantry.expectedbehaviors.com
+        paths:
+          - path: /
+            pathType: Prefix
+      - host: recipes.expectedbehaviors.com
+        paths:
+          - path: /
+            pathType: Prefix
+      - host: cookbook.expectedbehaviors.com
         paths:
           - path: /
             pathType: Prefix
     tls:
       - hosts:
-          - mealie.expectedbehaviors.com
+          - meals.expectedbehaviors.com
+          - pantry.expectedbehaviors.com
+          - recipes.expectedbehaviors.com
+          - cookbook.expectedbehaviors.com
         secretName: expectedbehaviors.com-tls
 persistence:
   data:
