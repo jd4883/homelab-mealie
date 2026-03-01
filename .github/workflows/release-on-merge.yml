@@ -43,6 +43,7 @@ jobs:
           if ! helm dependency update .; then
             echo "Helm repo unreachable, using chart from GitHub Releases"
             helm repo remove mealie 2>/dev/null || true
+            rm -rf ~/.cache/helm/repository/*
             mkdir -p charts
             curl -sL -o charts/mealie-1.0.0.tgz https://github.com/expectedbehaviors/mealie/releases/download/v1.0.0/mealie-1.0.0.tgz
             tar -tzf charts/mealie-1.0.0.tgz | head -3
