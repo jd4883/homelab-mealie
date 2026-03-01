@@ -12,6 +12,17 @@ on:
       - '.helmignore'
       - 'templates/**'
       - '.github/workflows/**'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'Chart.yaml'
+      - 'Chart.lock'
+      - 'values.yaml'
+      - 'values/**'
+      - 'README.md'
+      - '.helmignore'
+      - 'templates/**'
+      - '.github/workflows/**'
 
 concurrency: release-mealie
 
@@ -24,15 +35,17 @@ jobs:
         uses: azure/setup-helm@v4
         with:
           version: "v3.14.0"
-      - name: Lint chart
+      - name: Lint and render chart
         run: |
           helm repo add mealie https://expectedbehaviors.github.io/mealie
           helm repo update
           helm dependency update .
           helm lint .
+          helm template release . -f values.yaml > /dev/null
 
   release:
     runs-on: ubuntu-latest
+    if: github.event_name == 'push'
     needs: lint
     permissions:
       contents: write
