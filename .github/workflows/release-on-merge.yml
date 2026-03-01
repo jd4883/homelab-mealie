@@ -5,11 +5,13 @@ on:
     branches: [main]
     paths:
       - 'Chart.yaml'
+      - 'Chart.lock'
       - 'values.yaml'
       - 'values/**'
       - 'README.md'
       - '.helmignore'
       - 'templates/**'
+      - '.github/workflows/**'
 
 concurrency: release-mealie
 
@@ -24,7 +26,8 @@ jobs:
           version: "v3.14.0"
       - name: Lint chart
         run: |
-          helm repo add bjw-s https://bjw-s-labs.github.io/helm-charts
+          helm repo add mealie https://expectedbehaviors.github.io/mealie
+          helm repo update
           helm dependency update .
           helm lint .
 
