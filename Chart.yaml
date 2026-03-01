@@ -17,5 +17,5 @@ sources:
 maintainers: []
 dependencies:
   - name: mealie
-    version: "0.1.0"
+    version: "1.0.0"
     repository: https://expectedbehaviors.github.io/mealie
