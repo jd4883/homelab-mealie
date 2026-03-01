@@ -37,9 +37,17 @@ jobs:
           version: "v3.14.0"
       - name: Lint and render chart
         run: |
-          helm repo add mealie https://expectedbehaviors.github.io/mealie
-          helm repo update
-          helm dependency update .
+          set -e
+          helm repo add mealie https://expectedbehaviors.github.io/mealie || true
+          helm repo update || true
+          if ! helm dependency update .; then
+            echo "Helm repo unreachable, using chart from GitHub Releases"
+            mkdir -p charts
+            curl -sL -o charts/mealie-1.0.0.tgz https://github.com/expectedbehaviors/mealie/releases/download/v1.0.0/mealie-1.0.0.tgz
+            helm repo index charts --url "file://$(pwd)/charts"
+            helm repo add mealie "file://$(pwd)/charts" --force-update
+            helm dependency update .
+          fi
           helm lint .
           helm template release . -f values.yaml > /dev/null
 
