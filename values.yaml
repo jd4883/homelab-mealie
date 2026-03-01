@@ -1,83 +1,13 @@
-# Mealie — Argo CD uses expectedbehaviors/mealie chart; this file is values-only (no wrapper indentation).
-# Auth: use OIDC at ingress. Disable public signup; use OIDC or create initial user in app.
+# Mealie — Argo CD uses expectedbehaviors/mealie chart; this file is values-only (no wrapper).
+# Base chart provides: probes, resources, TZ (UTC), service. Override only ingress, persistence (Longhorn pre-created PVC), and setup-specific env (BASE_URL).
 global:
   fullnameOverride: mealie
-defaultPodOptions:
-  securityContext:
-    runAsNonRoot: true
-    runAsUser: 911
-    runAsGroup: 911
-    fsGroup: 911
-    fsGroupChangePolicy: "OnRootMismatch"
 controllers:
   main:
-    enabled: true
-    type: deployment
-    replicas: 1
     containers:
       main:
-        image:
-          repository: ghcr.io/mealie-recipes/mealie
-          tag: v1.4.0
-          pullPolicy: IfNotPresent
         env:
-          PUID: "911"
-          PGID: "911"
-          TZ: America/Los_Angeles
-          ALLOW_SIGNUP: "false"
           BASE_URL: "https://mealie.expectedbehaviors.com"
-        probes:
-          liveness:
-            enabled: true
-            custom: true
-            spec:
-              httpGet:
-                path: /api/app/about
-                port: 9000
-              initialDelaySeconds: 30
-              periodSeconds: 15
-              timeoutSeconds: 5
-              failureThreshold: 3
-          readiness:
-            enabled: true
-            custom: true
-            spec:
-              httpGet:
-                path: /api/app/about
-                port: 9000
-              initialDelaySeconds: 10
-              periodSeconds: 10
-              timeoutSeconds: 3
-              failureThreshold: 3
-          startup:
-            enabled: true
-            custom: true
-            spec:
-              httpGet:
-                path: /api/app/about
-                port: 9000
-              initialDelaySeconds: 10
-              periodSeconds: 5
-              timeoutSeconds: 3
-              failureThreshold: 30
-        resources:
-          requests:
-            cpu: 50m
-            memory: 512Mi
-          limits:
-            cpu: "1"
-            memory: 1Gi
-service:
-  main:
-    enabled: true
-    controller: main
-    primary: true
-    ports:
-      http:
-        enabled: true
-        primary: true
-        port: 9000
-        protocol: HTTP
 ingress:
   main:
     enabled: true
@@ -95,10 +25,7 @@ ingress:
 persistence:
   data:
     enabled: true
-    type: persistentVolumeClaim
-    accessMode: ReadWriteOnce
-    storageClass: ""
-    size: 10Gi
+    existingClaim: mealie-data
     globalMounts:
       - path: /app/data
         readOnly: false
