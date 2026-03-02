@@ -2,8 +2,8 @@
 # Run: helm repo add mealie https://expectedbehaviors.github.io/mealie && helm repo update
 apiVersion: v2
 name: mealie
-description: Mealie recipe manager — recipes, meal planning, shopping lists. Base: expectedbehaviors/mealie; OIDC via nginx.
-version: 0.1.0
+description: "Mealie recipe manager — recipes, meal planning, shopping lists. Base: expectedbehaviors/mealie; OIDC via nginx."
+version: 0.2.0
 appVersion: "1.4.0"
 kubeVersion: ">=1.22.0-0"
 keywords:
