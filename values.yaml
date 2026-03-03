@@ -1,47 +1,48 @@
 # Mealie — Argo CD uses expectedbehaviors/mealie chart; this file is values-only (no wrapper).
 # Base chart provides: probes, resources, TZ (UTC), service. Override only ingress, persistence (Longhorn pre-created PVC), and setup-specific env (BASE_URL).
 # Default host: meals.expectedbehaviors.com. CNAMEs: meals, pantry, recipes, cookbook (no overlap with other charts).
-global:
-  fullnameOverride: mealie
-controllers:
-  main:
-    containers:
-      main:
-        env:
-          BASE_URL: "https://meals.expectedbehaviors.com"
-ingress:
-  main:
-    enabled: true
-    annotations:
-      external-dns.alpha.kubernetes.io/target: expectedbehaviors.com
-    hosts:
-      - host: meals.expectedbehaviors.com
-        paths:
-          - path: /
-            pathType: Prefix
-      - host: pantry.expectedbehaviors.com
-        paths:
-          - path: /
-            pathType: Prefix
-      - host: recipes.expectedbehaviors.com
-        paths:
-          - path: /
-            pathType: Prefix
-      - host: cookbook.expectedbehaviors.com
-        paths:
-          - path: /
-            pathType: Prefix
-    tls:
-      - hosts:
-          - meals.expectedbehaviors.com
-          - pantry.expectedbehaviors.com
-          - recipes.expectedbehaviors.com
-          - cookbook.expectedbehaviors.com
-        secretName: expectedbehaviors.com-tls
-persistence:
-  data:
-    enabled: true
-    existingClaim: mealie-data
-    globalMounts:
-      - path: /app/data
-        readOnly: false
+mealie:
+  global:
+    fullnameOverride: mealie
+  controllers:
+    main:
+      containers:
+        main:
+          env:
+            BASE_URL: "https://meals.expectedbehaviors.com"
+  ingress:
+    main:
+      enabled: true
+      annotations:
+        external-dns.alpha.kubernetes.io/target: expectedbehaviors.com
+      hosts:
+        - host: meals.expectedbehaviors.com
+          paths:
+            - path: /
+              pathType: Prefix
+        - host: pantry.expectedbehaviors.com
+          paths:
+            - path: /
+              pathType: Prefix
+        - host: recipes.expectedbehaviors.com
+          paths:
+            - path: /
+              pathType: Prefix
+        - host: cookbook.expectedbehaviors.com
+          paths:
+            - path: /
+              pathType: Prefix
+      tls:
+        - hosts:
+            - meals.expectedbehaviors.com
+            - pantry.expectedbehaviors.com
+            - recipes.expectedbehaviors.com
+            - cookbook.expectedbehaviors.com
+          secretName: expectedbehaviors.com-tls
+  persistence:
+    data:
+      enabled: true
+      existingClaim: mealie-data
+      globalMounts:
+        - path: /app/data
+          readOnly: false
