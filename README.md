@@ -1,7 +1,6 @@
 # Mealie (homelab)
 
-Mealie — self-hosted recipe manager with meal planning, shopping lists, and API. Uses **bjw-s app-template**. **Managed by Argo CD.** Auth is handled at the ingress via **OIDC** (nginx + oauth2-proxy or nginx auth) so the app itself is not exposed without login.
-
+Values-only instantiation for Argo CD. Chart: expectedbehaviors/mealie. This repo supplies values.yaml only.
 ---
 
 ## Chart contents
