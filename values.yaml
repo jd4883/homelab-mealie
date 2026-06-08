@@ -2,8 +2,6 @@
 # Base chart provides: probes, resources, TZ (UTC), service. Override only ingress, persistence (Longhorn pre-created PVC), and setup-specific env (BASE_URL).
 # Default host: meals.expectedbehaviors.com. CNAMEs: meals, pantry, recipes, cookbook (no overlap with other charts).
 mealie:
-  global:
-    fullnameOverride: mealie
   controllers:
     main:
       containers:
@@ -12,7 +10,6 @@ mealie:
             BASE_URL: "https://meals.expectedbehaviors.com"
   ingress:
     main:
-      enabled: true
       annotations:
         external-dns.alpha.kubernetes.io/target: expectedbehaviors.com
       hosts:
