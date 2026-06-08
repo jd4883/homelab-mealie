@@ -1,6 +1,10 @@
 # Mealie — Argo CD uses expectedbehaviors/mealie chart; this file is values-only (no wrapper).
 # Base chart provides: probes, resources, TZ (UTC), service. Override only ingress, persistence (Longhorn pre-created PVC), and setup-specific env (BASE_URL).
 # Default host: meals.expectedbehaviors.com. CNAMEs: meals, pantry, recipes, cookbook (no overlap with other charts).
+# No 1Password secrets — auth at ingress (oauth2-proxy).
+onepassworditem:
+  enabled: false
+
 mealie:
   controllers:
     main:
