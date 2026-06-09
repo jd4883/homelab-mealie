@@ -42,7 +42,7 @@ mealie:
           secretName: expectedbehaviors.com-tls
   persistence:
     data:
-      enabled: true
+      type: persistentVolumeClaim
       existingClaim: mealie-data
       globalMounts:
         - path: /app/data
