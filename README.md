@@ -3,6 +3,12 @@
 Values-only instantiation for Argo CD. Chart: expectedbehaviors/mealie. This repo supplies values.yaml only.
 ---
 
+## 🗺️ Topology
+
+![mealie topology](docs/img/topology.svg)
+
+<sub>Generated from this repo’s `values.yaml`, `Chart.yaml` and `argocd/` manifests. Source: [`docs/img/topology.mmd`](docs/img/topology.mmd). Deployed by Argo CD into namespace `mealie`.</sub>
+
 ## Chart contents
 
 - **App:** Mealie (ghcr.io/mealie-recipes/mealie) via bjw-s app-template; port 9000.
