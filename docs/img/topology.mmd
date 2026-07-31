@@ -10,12 +10,15 @@ flowchart LR
   end
   subgraph NS["namespace: mealie"]
     direction TB
-    APP["mealie<br/>chart 1.0.3"]:::app
-    PVC[("existing PVCs<br/>mealie-data")]:::store
+    APP["mealie"]:::app
+  end
+  subgraph VOLS["persistent volumes"]
+    direction LR
+    V0[("mealie-data")]:::store
   end
   CHART["Helm chart<br/>expectedbehaviors/mealie"]:::dep
   CHART -. "chart source" .-> APP
   HOSTS --> APP
-  APP --> PVC
+  APP --> VOLS
   TLS["TLS<br/>expectedbehaviors.com-tls"]:::sec
   TLS -. "cert" .-> HOSTS
