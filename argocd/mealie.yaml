@@ -1,0 +1,13 @@
+chart: mealie
+project: mealie
+namespaceLabels:
+  pod-security.kubernetes.io/audit: privileged
+  pod-security.kubernetes.io/enforce: privileged
+  pod-security.kubernetes.io/warn: privileged
+helmRepoURL: https://expectedbehaviors.github.io/mealie
+helmChartRevision: "1.0.3"
+targetRevision: HEAD
+valuesRef: values
+helmValueFiles:
+  - $values/values.yaml
+helmSkipSchemaValidation: true
